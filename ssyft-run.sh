@@ -73,9 +73,12 @@ mv $name.aux $ltlfile
 
 # solving
 $script_path/parser/safe2fol/safe2fol NNF $ltlfile > $monafile
-mona -xwu $monafile > $dfafile
-$script_path/SSyft $dfafile $partfile 1
-
+if mona -xwu $monafile > $dfafile ; then
+  $script_path/SSyft $dfafile $partfile 1 2>&1
+else
+  echo "memout"
+  cat $dfafile
+fi
 
 
 # cleaning
